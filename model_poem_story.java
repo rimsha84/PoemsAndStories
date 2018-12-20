@@ -3,24 +3,34 @@ package com.example.lenovo.poemsandstories;
 public class model_poem_story {
     String textview;
     String button;
-    int video;
+    String uri,iuri;
 
     public model_poem_story() {
 
     }
 
-    public model_poem_story(int video,String textview, String button) {
-        this.video= video;
+    public model_poem_story( String textview, String button, String uri, String iuri) {
         this.textview = textview;
         this.button = button;
+        this.uri = uri;
+        this.iuri = iuri;
     }
 
-    public int getVideo() {
-        return video;
+//    public int getVideo() {
+//        return video;
+//    }
+//
+//    public void setVideo(int video) {
+//        this.video = video;
+//    }
+
+
+    public String getIuri() {
+        return iuri;
     }
 
-    public void setVideo(int video) {
-        this.video = video;
+    public void setIuri(String iuri) {
+        this.iuri = iuri;
     }
 
     public String getTextview() {
@@ -37,5 +47,13 @@ public class model_poem_story {
 
     public void setButton(String button) {
         this.button = button;
+    }
+
+    public String getUri() {
+        return uri;
+    }
+
+    public void setUri(String uri) {
+        this.uri = uri;
     }
 }

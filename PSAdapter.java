@@ -1,17 +1,23 @@
 package com.example.lenovo.poemsandstories;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -42,16 +48,27 @@ public class PSAdapter extends RecyclerView.Adapter<PSAdapter.MyViewHolder> {
         holder.tv.setText(stories_model.getTextview());
         holder.button.setText(stories_model.getButton());
 
+        final String ijk= stories_model.getUri();
+        Picasso.get().load(stories_model.getIuri()).into(holder.imageView);
+
         holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(context, MainActivity.class);
 
-                intent.putExtra("name", holder.tv.getText());
-                context.startActivity(intent);
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + ijk));
+                Intent webIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("http://www.youtube.com/watch?v=" + ijk));
+                try {
+                    context.startActivity(appIntent);
+                } catch (ActivityNotFoundException ex) {
+                    Log.e(ActivityNotFoundException.class.getSimpleName(), ex.getLocalizedMessage());
+                    context.startActivity(webIntent);
+                }
 
             }
+
+
         });
     }
 
@@ -63,7 +80,7 @@ public class PSAdapter extends RecyclerView.Adapter<PSAdapter.MyViewHolder> {
     public class MyViewHolder extends RecyclerView.ViewHolder{
 
         FButton button;
-        VideoView videoView;
+        ImageView imageView;
         View holderview;
         TextView tv;
 
@@ -71,7 +88,7 @@ public class PSAdapter extends RecyclerView.Adapter<PSAdapter.MyViewHolder> {
         public MyViewHolder(View view) {
             super(view);
             holderview =view;
-
+            imageView= view.findViewById(R.id.imageview);
             button= view.findViewById(R.id.selectbutton);
             tv= view.findViewById(R.id.storypoem);
         }
